@@ -1,0 +1,130 @@
+JFDML JFormDesigner: "7.0.0.3.238" Java: "11.0.3" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class java.awt.CardLayout ) ) {
+			name: "this"
+			"title": "Aleksin Muzicki Plejer"
+			"iconImage": new com.jformdesigner.model.SwingIcon( 0, "/rs/aleksa/images/play.png" )
+			"resizable": false
+			"undecorated": true
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {comp controlPannel::t:::x, seq t {space :::p, par t {comp header:::::x, comp display:::::x}, space :::p}}"
+				"$verticalGroup": "par l {seq l {comp header:::p:51:p, space :::p, comp display:::p::p, space :::p, comp controlPannel:::::x, space :::p}}"
+			} ) {
+				name: "container"
+				"background": &Color0 new java.awt.Color( 7, 63, 86, 255 )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {seq l {space :::p, comp appTitle::::192:x, space :::p, comp nextSong:::p::p, space :::p, comp previousSong:::p::p, space :p:130:p, comp settings:::p:40:p, space :::p, comp quit:::p::p}}"
+					"$verticalGroup": "par l {seq {par l {comp quit::l:::x, comp settings::l:::x, seq {space :::p, comp appTitle:::::x}, seq t {space :0:0:x, par l {comp previousSong::l:p:57:p, comp nextSong::l:p:57:p}}}, space :::p}}"
+				} ) {
+					name: "header"
+					"background": new java.awt.Color( 36, 93, 116, 255 )
+					add( new FormComponent( "com.jformdesigner.designer.wrapper.JGoodiesFormsLabel" ) {
+						name: "appTitle"
+						"text": "APP TITLE"
+						"font": new com.jformdesigner.model.SwingDerivedFont( "Trebuchet MS", 1, 8, false )
+						"horizontalAlignment": 2
+						"textWithMnemonic": "APP TITLE"
+						addEvent( new FormEvent( "java.awt.event.MouseListener", "mousePressed", "appTitleMousePressed", true ) )
+						addEvent( new FormEvent( "java.awt.event.MouseMotionListener", "mouseDragged", "appTitleMouseDragged", true ) )
+						addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "appTitleMouseClicked", true ) )
+					} )
+					add( new FormComponent( "com.jformdesigner.designer.wrapper.JGoodiesFormsLabel" ) {
+						name: "quit"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/rs/aleksa/images/quit.png" )
+						addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "quitMouseClicked", true ) )
+					} )
+					add( new FormComponent( "com.jformdesigner.designer.wrapper.JGoodiesFormsLabel" ) {
+						name: "settings"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/rs/aleksa/images/settings.png" )
+						addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "settingsMouseClicked", true ) )
+					} )
+					add( new FormComponent( "com.jformdesigner.designer.wrapper.JGoodiesFormsLabel" ) {
+						name: "previousSong"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/rs/aleksa/images/forward.png" )
+						addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "previousSongMouseClicked", true ) )
+					} )
+					add( new FormComponent( "com.jformdesigner.designer.wrapper.JGoodiesFormsLabel" ) {
+						name: "nextSong"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/rs/aleksa/images/reverse.png" )
+						addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "nextSongMouseClicked", true ) )
+					} )
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {seq l {space :::p, comp currPlaying::::610:x, space :::p}}"
+					"$verticalGroup": "par l {seq l {space :::p, comp currPlaying::::42:x, space :::p}}"
+				} ) {
+					name: "display"
+					"background": #Color0
+					"border": new javax.swing.border.LineBorder( new java.awt.Color( 34, 202, 237, 140 ), 2, true )
+					add( new FormComponent( "com.jformdesigner.designer.wrapper.JGoodiesFormsLabel" ) {
+						name: "currPlaying"
+						"textWithMnemonic": "text"
+						"horizontalAlignment": 0
+						"text": "P L A Y I N G ..."
+						addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "currPlayingMouseClicked", true ) )
+					} )
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {seq l {space :p:15:p, comp repeat:::p::p, space :::p, comp pause:::p:70:p, space :::p, comp play:::p:120:p, space :::p, comp stop:::p:70:p, space :::p, comp open:::p:70:p, space :::p, comp volume:::p::p, space :::p, comp volume1:::p::p, space :::p, comp volume2:::p::p, space :::p, comp mute:::p:40:p, space ::15:x}}"
+					"$verticalGroup": "par l {comp mute::l:::x, comp volume2::t:::x, comp volume1::t:::x, comp volume::t:::x, comp open::t:::x, comp stop::t:::x, comp play::t:::x, comp pause:::::x, comp repeat::l:::x}"
+				} ) {
+					name: "controlPannel"
+					"background": #Color0
+					add( new FormComponent( "com.jformdesigner.designer.wrapper.JGoodiesFormsLabel" ) {
+						name: "repeat"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/rs/aleksa/images/repeat.png" )
+						addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "repeatMouseClicked", true ) )
+					} )
+					add( new FormComponent( "com.jformdesigner.designer.wrapper.JGoodiesFormsLabel" ) {
+						name: "pause"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/rs/aleksa/images/pause.png" )
+						addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "pauseMouseClicked", true ) )
+					} )
+					add( new FormComponent( "com.jformdesigner.designer.wrapper.JGoodiesFormsLabel" ) {
+						name: "play"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/rs/aleksa/images/play.png" )
+						addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "playMouseClicked", true ) )
+					} )
+					add( new FormComponent( "com.jformdesigner.designer.wrapper.JGoodiesFormsLabel" ) {
+						name: "stop"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/rs/aleksa/images/stop.png" )
+						addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "stopMouseClicked", true ) )
+					} )
+					add( new FormComponent( "com.jformdesigner.designer.wrapper.JGoodiesFormsLabel" ) {
+						name: "open"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/rs/aleksa/images/open.png" )
+						addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "openMouseClicked", true ) )
+					} )
+					add( new FormComponent( "com.jformdesigner.designer.wrapper.JGoodiesFormsLabel" ) {
+						name: "volume"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/rs/aleksa/images/volume_down.png" )
+						addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "volumeMouseClicked", true ) )
+					} )
+					add( new FormComponent( "com.jformdesigner.designer.wrapper.JGoodiesFormsLabel" ) {
+						name: "volume1"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/rs/aleksa/images/volume_up.png" )
+						addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "volume1MouseClicked", true ) )
+					} )
+					add( new FormComponent( "com.jformdesigner.designer.wrapper.JGoodiesFormsLabel" ) {
+						name: "volume2"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/rs/aleksa/images/volume_full.png" )
+						addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "volume2MouseClicked", true ) )
+					} )
+					add( new FormComponent( "com.jformdesigner.designer.wrapper.JGoodiesFormsLabel" ) {
+						name: "mute"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/rs/aleksa/images/mute.png" )
+						addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "muteMouseClicked", true ) )
+					} )
+				} )
+			}, new FormLayoutConstraints( class java.lang.String ) {
+				"value": "card1"
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 30, 40 )
+			"size": new java.awt.Dimension( 640, 270 )
+		} )
+	}
+}
