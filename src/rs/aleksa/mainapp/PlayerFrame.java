@@ -18,147 +18,235 @@ import java.nio.file.Paths;
  */
 
 /**
+ * Ovaj program je namenjen predmetu Projektovanje Softvera.
+ * Ovaj program prima muziku iz putanje fajlova, i isčitava odatle.
+ * Mislim da ne treba da se inkorporira baza podataka jer neke baze neće raditi
+ * na drugim operativnim sistemima, te isčitavanje putanje fajlova je u ovom primeru
+ * bolja opcija.
+ *
  * @author Aleksa
  */
 
 public class PlayerFrame extends JFrame {
 
-    MP3Player player;
-    File songFile;
-    String currentDirectory = "home.user";
-    String currentPath;
-    String imagePath;
-    String appName = "Aleksa Cakić SI 23/17";
+    private MP3Player player;
+    private File songFile;
+    private String currentDirectory = "home.user";
+    private String imagePath;
+    private String appName = "Aleksa Cakić SI 23/17";
 
-    boolean isOnRepeat = false;
-    boolean windowCollapsed = false;
-    int xMouse, yMouse;
+    File[] songFiles;
 
+    private boolean isOnRepeat = false;
+    private boolean windowCollapsed = false;
+    private int xMouse, yMouse;
+
+    /**
+     * Konstruktor koji inicijalizuje celu aplikaciju sa @initComponents() metodom.
+     */
     public PlayerFrame() {
         initComponents();
-        songFile = new File("rs/aleksa/sampleSong/Shadow of Intent - The Heretic Prevails (lyric video).mp3");
+        songFile = new File(" ");
         appTitle.setText(appName);
         String fileName = songFile.getName();
         currPlaying.setText(fileName);
         player = mp3Player();
         player.addToPlayList(songFile);
-        currentPath = Paths.get(".").toAbsolutePath().normalize().toString();
+        String currentPath = Paths.get(".").toAbsolutePath().normalize().toString();
     }
 
+    /**
+     * Metoda koja pokreće stream.
+     *
+     * @param e
+     */
     private void playMouseClicked(MouseEvent e) {
-        // TODO add your code here
-        player.play();
-        play.setIcon(new ImageIcon("D:\\AMusicPlayer\\src\\rs\\aleksa\\images\\play_enabled.png"));
-        currPlaying.setText("Sada na repertoaru: " + songFile.getName());
-    }
-
-    private void stopMouseClicked(MouseEvent e) {
-        // TODO add your code here
-        player.stop();
-    }
-
-    private void pauseMouseClicked(MouseEvent e) {
-        // TODO add your code here
-        player.pause();
-    }
-
-    private void repeatMouseClicked(MouseEvent e) {
-        // TODO add your code here
-        if (isOnRepeat == false) {
-            isOnRepeat = true;
-            player.setRepeat(isOnRepeat);
-
-            repeat.setIcon(new ImageIcon("D:\\AMusicPlayer\\src\\rs\\aleksa\\images\\repeat_enabled.png"));
-        } else if (isOnRepeat == true) {
-            isOnRepeat = false;
-            player.setRepeat(isOnRepeat);
-
-            repeat.setIcon(new ImageIcon("D:\\AMusicPlayer\\src\\rs\\aleksa\\images\\repeat.png"));
+        try {
+            player.play();
+            player.getPlayList();
+            play.setIcon(new ImageIcon("D:\\AMusicPlayer\\src\\rs\\aleksa\\images\\play_enabled.png"));
+            currPlaying.setText("Sada na repertoaru: " + songFile.getName());
+        } catch (Exception e1) {
+            System.out.println(e.getClickCount() + " je kliknuto i izazvalo : " + e1.getMessage());
         }
     }
 
+    /**
+     * Metoda koja zaustavlja stream.
+     *
+     * @param e
+     */
+    private void stopMouseClicked(MouseEvent e) {
+        try {
+            player.stop();
+        } catch (Exception e1) {
+            System.out.println(e.getClickCount() + " je kliknuto i izazvalo : " + e1.getMessage());
+        }
+    }
+
+    /**
+     * Metoda koja pauzira stream.
+     *
+     * @param e
+     */
+    private void pauseMouseClicked(MouseEvent e) {
+        try {
+            player.pause();
+        } catch (Exception e1) {
+            System.out.println(e.getClickCount() + " je kliknuto i izazvalo : " + e1.getMessage());
+        }
+    }
+
+    /**
+     * Metoda koja postavlja stream u while(true) loop.
+     *
+     * @param e
+     */
+    private void repeatMouseClicked(MouseEvent e) {
+        try {
+            if (!isOnRepeat) {
+                isOnRepeat = true;
+                player.setRepeat(true);
+
+                repeat.setIcon(new ImageIcon("D:\\AMusicPlayer\\src\\rs\\aleksa\\images\\repeat_enabled.png"));
+            } else {
+                isOnRepeat = false;
+                player.setRepeat(false);
+
+                repeat.setIcon(new ImageIcon("D:\\AMusicPlayer\\src\\rs\\aleksa\\images\\repeat.png"));
+            }
+        } catch (Exception e1) {
+            System.out.println(e.getClickCount() + " je kliknuto i izazvalo : " + e1.getMessage());
+        }
+    }
+
+    /**
+     * Metoda koja inicijalizuje koordinate radi pomeranja prozora.
+     *
+     * @param e
+     */
     private void appTitleMousePressed(MouseEvent e) {
-        // TODO add your code here
         xMouse = e.getX();
         yMouse = e.getY();
     }
 
+    /**
+     * Metoda koja omogučava logiku iza koordinata i pomeranja prozora.
+     *
+     * @param e
+     */
     private void appTitleMouseDragged(MouseEvent e) {
-        // TODO add your code here
         int x = e.getXOnScreen();
         int y = e.getYOnScreen();
 
         this.setLocation(x - xMouse, y - yMouse);
     }
 
+    /**
+     * Metoda koja zatvara i uništava proces.
+     *
+     * @param e
+     */
     private void quitMouseClicked(MouseEvent e) {
-        // TODO add your code here
-        this.dispose();
+        try {
+            player.stop();
+            this.dispose();
+        } catch (Exception e1) {
+            System.out.println(e.getClickCount() + " je kliknuto i izazvalo : " + e1.getMessage());
+        }
     }
 
+    /**
+     * Metoda koja pokreće setting pannel.
+     *
+     * @param e
+     */
     private void settingsMouseClicked(MouseEvent e) {
-        // TODO add your code here
-        JOptionPane.showMessageDialog(this, "Postavke ovde");
+        try {
+            JOptionPane.showMessageDialog(this, "Postavke ovde");
+        } catch (Exception e1) {
+            System.out.println(e.getClickCount() + " je kliknuto i izazvalo : " + e1.getMessage());
+        }
     }
 
+    /**
+     * Metoda koja otvara fajl sistem iz koga se biraju podaci.
+     *
+     * @param e
+     */
     private void openMouseClicked(MouseEvent e) {
-        // TODO add your code here
-        chosenFile();
+        try {
+            chosenFile();
+        } catch (Exception e1) {
+            System.out.println(e.getClickCount() + " je kliknuto i izazvalo : " + e1.getMessage());
+        }
     }
 
+    /**
+     * Metoda koja je kolapsovati prozor i umanjiti ga kako ne bi smetao.
+     *
+     * @param e
+     */
     private void appTitleMouseClicked(MouseEvent e) {
-        // TODO add your code here
         if (e.getClickCount() == 2) {
             if (windowCollapsed == false) {
                 windowCollapsed = true;
                 this.setSize(new Dimension(this.getSize().width, 50));
-                appTitle.setFont(new Font("Trebuchet MS", appTitle.getFont().getStyle() | Font.BOLD, appTitle.getFont().getSize() + 6));
-                appTitle.setText("Sada se slusa: " + songFile.getName());
+
+                appTitle.setFont(new Font("Nirmala UI", 0, 12));
+                appTitle.setText("Playing Now... | " + songFile.getName());
             } else if (windowCollapsed == true) {
                 windowCollapsed = false;
                 this.setSize(new Dimension(this.getSize().width, 250));
-                appTitle.setFont(new Font("Trebuchet MS", appTitle.getFont().getStyle() | Font.BOLD, appTitle.getFont().getSize() + 18));
+
+                appTitle.setFont(new Font("Nirmala UI", 0, 18));
                 appTitle.setText(appName);
-            } else {
-                return;
             }
         }
     }
 
+    /**
+     * Metoda za utišavanje.
+     *
+     * @param e
+     */
     private void volumeMouseClicked(MouseEvent e) {
-        // TODO add your code here
         volumeDownControl(0.1);
     }
 
+    /**
+     * Metoda za pojačavanje.
+     *
+     * @param e
+     */
     private void volume1MouseClicked(MouseEvent e) {
-        // TODO add your code here
         volumeUpControl(0.1);
     }
 
+    /**
+     * Metoda za pojačavanje do maksimuma.
+     *
+     * @param e
+     */
     private void volume2MouseClicked(MouseEvent e) {
-        // TODO add your code here
         volumeControl(1.0);
     }
 
+    /**
+     * Metoda za maksimalno utišavanje, ili mute opcija.
+     *
+     * @param e
+     */
     private void muteMouseClicked(MouseEvent e) {
-        // TODO add your code here
         volumeControl(0.0);
     }
 
-    private void nextSongMouseClicked(MouseEvent e) {
-        // TODO add your code here
-        player.skipBackward();
-        currPlaying.setName(currPlaying.getName());
-    }
-
-    private void previousSongMouseClicked(MouseEvent e) {
-        // TODO add your code here
-        player.skipForward();
-        currPlaying.setName(currPlaying.getName());
-    }
-
+    /**
+     * Metoda koja otvara app dialog.
+     *
+     * @param e
+     */
     private void currPlayingMouseClicked(MouseEvent e) {
-        // TODO add your code here
         if (e.getClickCount() == 2) {
             AboutApp dialog = new AboutApp(this);
             dialog.setSize(500, 500);
@@ -166,6 +254,29 @@ public class PlayerFrame extends JFrame {
         }
     }
 
+    /**
+     * Metoda koja pušta sledeći element u stream-u.
+     *
+     * @param e
+     */
+    private void previousMouseClicked(MouseEvent e) {
+        player.skipBackward();
+        currPlaying.setName("Sada na repertoaru: " + songFile.getName());
+    }
+
+    /**
+     * Metoda koja pušta prethodni element u streamu.
+     *
+     * @param e
+     */
+    private void nextMouseClicked(MouseEvent e) {
+        player.skipForward();
+        currPlaying.setName("Sada na repertoaru: " + songFile.getName());
+    }
+
+    /**
+     * Metoda koja inicijalizuje sve komponente glavne aplikacije.
+     */
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - Aleksa
@@ -175,10 +286,10 @@ public class PlayerFrame extends JFrame {
         appTitle = compFactory.createLabel("APP TITLE");
         quit = compFactory.createLabel("");
         settings = compFactory.createLabel("");
-        previousSong = compFactory.createLabel("");
-        nextSong = compFactory.createLabel("");
         display = new JPanel();
         currPlaying = compFactory.createLabel("text");
+        previous = new JButton();
+        next = new JButton();
         controlPannel = new JPanel();
         repeat = compFactory.createLabel("");
         pause = compFactory.createLabel("");
@@ -201,11 +312,20 @@ public class PlayerFrame extends JFrame {
         //======== container ========
         {
             container.setBackground(new Color(7, 63, 86));
-            container.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing. border. EmptyBorder(
-            0, 0, 0, 0) , "JF\u006frmD\u0065sig\u006eer \u0045val\u0075ati\u006fn", javax. swing. border. TitledBorder. CENTER, javax. swing. border. TitledBorder
-            . BOTTOM, new java .awt .Font ("Dia\u006cog" ,java .awt .Font .BOLD ,12 ), java. awt. Color.
-            red) ,container. getBorder( )) ); container. addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java .
-            beans .PropertyChangeEvent e) {if ("\u0062ord\u0065r" .equals (e .getPropertyName () )) throw new RuntimeException( ); }} );
+            container.setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(
+                    new javax.swing.border.EmptyBorder(0, 0, 0, 0), "JF\u006frm\u0044es\u0069gn\u0065r \u0045va\u006cua\u0074io\u006e"
+                    , javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BOTTOM
+                    , new java.awt.Font("D\u0069al\u006fg", java.awt.Font.BOLD, 12)
+                    , java.awt.Color.red), container.getBorder()));
+            container.addPropertyChangeListener(
+                    new java.beans.PropertyChangeListener() {
+                        @Override
+                        public void propertyChange(java.beans.PropertyChangeEvent e
+                        ) {
+                            if ("\u0062or\u0064er".equals(e.getPropertyName())) throw new RuntimeException()
+                                    ;
+                        }
+                    });
 
             //======== header ========
             {
@@ -220,6 +340,7 @@ public class PlayerFrame extends JFrame {
                     public void mouseClicked(MouseEvent e) {
                         appTitleMouseClicked(e);
                     }
+
                     @Override
                     public void mousePressed(MouseEvent e) {
                         appTitleMousePressed(e);
@@ -250,55 +371,25 @@ public class PlayerFrame extends JFrame {
                     }
                 });
 
-                //---- previousSong ----
-                previousSong.setIcon(new ImageIcon(getClass().getResource("/rs/aleksa/images/forward.png")));
-                previousSong.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        previousSongMouseClicked(e);
-                    }
-                });
-
-                //---- nextSong ----
-                nextSong.setIcon(new ImageIcon(getClass().getResource("/rs/aleksa/images/reverse.png")));
-                nextSong.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        nextSongMouseClicked(e);
-                    }
-                });
-
                 GroupLayout headerLayout = new GroupLayout(header);
                 header.setLayout(headerLayout);
                 headerLayout.setHorizontalGroup(
-                    headerLayout.createParallelGroup()
-                        .addGroup(headerLayout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(appTitle, GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(nextSong, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(previousSong, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                            .addGap(130, 130, 130)
-                            .addComponent(settings, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(quit, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                        headerLayout.createParallelGroup()
+                                .addGroup(headerLayout.createSequentialGroup()
+                                        .addContainerGap()
+                                        .addComponent(appTitle, GroupLayout.DEFAULT_SIZE, 528, Short.MAX_VALUE)
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(settings, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(quit, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                 );
                 headerLayout.setVerticalGroup(
-                    headerLayout.createParallelGroup()
-                        .addGroup(headerLayout.createSequentialGroup()
-                            .addGroup(headerLayout.createParallelGroup()
-                                .addComponent(quit, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(settings, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        headerLayout.createParallelGroup()
+                                .addComponent(settings, GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
+                                .addComponent(quit, GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
                                 .addGroup(headerLayout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addComponent(appTitle, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGroup(GroupLayout.Alignment.TRAILING, headerLayout.createSequentialGroup()
-                                    .addGap(0, 0, Short.MAX_VALUE)
-                                    .addGroup(headerLayout.createParallelGroup()
-                                        .addComponent(previousSong, GroupLayout.PREFERRED_SIZE, 57, GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(nextSong, GroupLayout.PREFERRED_SIZE, 57, GroupLayout.PREFERRED_SIZE))))
-                            .addContainerGap())
+                                        .addContainerGap()
+                                        .addComponent(appTitle, GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE))
                 );
             }
 
@@ -317,21 +408,46 @@ public class PlayerFrame extends JFrame {
                     }
                 });
 
+                //---- previous ----
+                previous.setText("<");
+                previous.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        previousMouseClicked(e);
+                    }
+                });
+
+                //---- next ----
+                next.setText(">");
+                next.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        nextMouseClicked(e);
+                    }
+                });
+
                 GroupLayout displayLayout = new GroupLayout(display);
                 display.setLayout(displayLayout);
                 displayLayout.setHorizontalGroup(
-                    displayLayout.createParallelGroup()
-                        .addGroup(displayLayout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(currPlaying, GroupLayout.DEFAULT_SIZE, 610, Short.MAX_VALUE)
-                            .addContainerGap())
+                        displayLayout.createParallelGroup()
+                                .addGroup(displayLayout.createSequentialGroup()
+                                        .addContainerGap()
+                                        .addComponent(previous)
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(currPlaying, GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(next)
+                                        .addContainerGap())
                 );
                 displayLayout.setVerticalGroup(
-                    displayLayout.createParallelGroup()
-                        .addGroup(displayLayout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(currPlaying, GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
-                            .addContainerGap())
+                        displayLayout.createParallelGroup()
+                                .addGroup(displayLayout.createSequentialGroup()
+                                        .addContainerGap()
+                                        .addGroup(displayLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                                .addComponent(currPlaying, GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
+                                                .addComponent(previous)
+                                                .addComponent(next))
+                                        .addContainerGap())
                 );
             }
 
@@ -423,63 +539,63 @@ public class PlayerFrame extends JFrame {
                 GroupLayout controlPannelLayout = new GroupLayout(controlPannel);
                 controlPannel.setLayout(controlPannelLayout);
                 controlPannelLayout.setHorizontalGroup(
-                    controlPannelLayout.createParallelGroup()
-                        .addGroup(controlPannelLayout.createSequentialGroup()
-                            .addGap(15, 15, 15)
-                            .addComponent(repeat, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(pause, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(play, GroupLayout.PREFERRED_SIZE, 120, GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(stop, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(open, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(volume, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(volume1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(volume2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(mute, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-                            .addContainerGap(15, Short.MAX_VALUE))
+                        controlPannelLayout.createParallelGroup()
+                                .addGroup(controlPannelLayout.createSequentialGroup()
+                                        .addGap(15, 15, 15)
+                                        .addComponent(repeat, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(pause, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(play, GroupLayout.PREFERRED_SIZE, 120, GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(stop, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(open, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(volume, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(volume1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(volume2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(mute, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+                                        .addContainerGap(15, Short.MAX_VALUE))
                 );
                 controlPannelLayout.setVerticalGroup(
-                    controlPannelLayout.createParallelGroup()
-                        .addComponent(mute, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(volume2, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(volume1, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(volume, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(open, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(stop, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(play, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(pause, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(repeat, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        controlPannelLayout.createParallelGroup()
+                                .addComponent(mute, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(volume2, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(volume1, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(volume, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(open, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(stop, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(play, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(pause, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(repeat, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 );
             }
 
             GroupLayout containerLayout = new GroupLayout(container);
             container.setLayout(containerLayout);
             containerLayout.setHorizontalGroup(
-                containerLayout.createParallelGroup()
-                    .addComponent(controlPannel, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(GroupLayout.Alignment.TRAILING, containerLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(containerLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-                            .addComponent(header, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(display, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap())
+                    containerLayout.createParallelGroup()
+                            .addComponent(controlPannel, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(GroupLayout.Alignment.TRAILING, containerLayout.createSequentialGroup()
+                                    .addContainerGap()
+                                    .addGroup(containerLayout.createParallelGroup()
+                                            .addComponent(display, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(header, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addContainerGap())
             );
             containerLayout.setVerticalGroup(
-                containerLayout.createParallelGroup()
-                    .addGroup(containerLayout.createSequentialGroup()
-                        .addComponent(header, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(display, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(controlPannel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
+                    containerLayout.createParallelGroup()
+                            .addGroup(containerLayout.createSequentialGroup()
+                                    .addComponent(header, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(display, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(controlPannel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addContainerGap())
             );
         }
         contentPane.add(container, "card1");
@@ -496,10 +612,10 @@ public class PlayerFrame extends JFrame {
     private JLabel appTitle;
     private JLabel quit;
     private JLabel settings;
-    private JLabel previousSong;
-    private JLabel nextSong;
     private JPanel display;
     private JLabel currPlaying;
+    private JButton previous;
+    private JButton next;
     private JPanel controlPannel;
     private JLabel repeat;
     private JLabel pause;
@@ -512,11 +628,20 @@ public class PlayerFrame extends JFrame {
     private JLabel mute;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 
+    /**
+     * Inicijalizacija i pokretanje mp3 java plugina.
+     *
+     * @return
+     */
     private MP3Player mp3Player() {
-        MP3Player mp3Player = new MP3Player();
-        return mp3Player;
+        return new MP3Player();
     }
 
+    /**
+     * Metoda koja je zadužena za utišavanje tona.
+     *
+     * @param valueToPlusMinus
+     */
     private void volumeDownControl(Double valueToPlusMinus) {
         Mixer.Info[] mixers = AudioSystem.getMixerInfo();
         for (Mixer.Info mixerInfo : mixers) {
@@ -539,9 +664,7 @@ public class PlayerFrame extends JFrame {
                     Double volumeToCut = valueToPlusMinus;
                     float changedCalc = (float) ((float) currentVolume - (double) volumeToCut);
                     volControl.setValue(changedCalc);
-                } catch (LineUnavailableException e) {
-                    System.out.println("Nesto ovde ne valja! " + e.getMessage());
-                } catch (IllegalArgumentException e) {
+                } catch (LineUnavailableException | IllegalArgumentException e) {
                     System.out.println("Nesto ovde ne valja! " + e.getMessage());
                 } finally {
                     if (line != null && !opened)
@@ -551,6 +674,11 @@ public class PlayerFrame extends JFrame {
         }
     }
 
+    /**
+     * Metoda koja je zadužena za pojačavanje tona.
+     *
+     * @param valueToPlusMinus
+     */
     private void volumeUpControl(Double valueToPlusMinus) {
         Mixer.Info[] mixers = AudioSystem.getMixerInfo();
         for (Mixer.Info mixerInfo : mixers) {
@@ -570,12 +698,9 @@ public class PlayerFrame extends JFrame {
 
                     FloatControl volControl = (FloatControl) line.getControl(FloatControl.Type.VOLUME);
                     float currentVolume = volControl.getValue();
-                    Double volumeToCut = valueToPlusMinus;
-                    float changedCalc = (float) ((float) currentVolume + (double) volumeToCut);
+                    float changedCalc = (float) ((float) currentVolume + (double) valueToPlusMinus);
                     volControl.setValue(changedCalc);
-                } catch (LineUnavailableException e) {
-                    System.out.println("Nesto ovde ne valja! " + e.getMessage());
-                } catch (IllegalArgumentException e) {
+                } catch (LineUnavailableException | IllegalArgumentException e) {
                     System.out.println("Nesto ovde ne valja! " + e.getMessage());
                 } finally {
                     if (line != null && !opened)
@@ -585,6 +710,11 @@ public class PlayerFrame extends JFrame {
         }
     }
 
+    /**
+     * Metoda koja je zadužena kontrolu tona, ili samo pojačavanje do maksimuma ili minimuma.
+     *
+     * @param valueToPlusMinus
+     */
     private void volumeControl(Double valueToPlusMinus) {
         Mixer.Info[] mixers = AudioSystem.getMixerInfo();
         for (Mixer.Info mixerInfo : mixers) {
@@ -607,9 +737,7 @@ public class PlayerFrame extends JFrame {
                     Double volumeToCut = valueToPlusMinus;
                     float changedCalc = (float) ((double) volumeToCut);
                     volControl.setValue(changedCalc);
-                } catch (LineUnavailableException e) {
-                    System.out.println("Nesto ovde ne valja! " + e.getMessage());
-                } catch (IllegalArgumentException e) {
+                } catch (LineUnavailableException | IllegalArgumentException e) {
                     System.out.println("Nesto ovde ne valja! " + e.getMessage());
                 } finally {
                     if (line != null && !opened)
@@ -619,6 +747,12 @@ public class PlayerFrame extends JFrame {
         }
     }
 
+    /**
+     * Main metoda koja pokreće ceo program. Koncipirana je tako da maksimalno pazi
+     * na errore koji bi mogli izleteti, te ih kontroli lambda izrazom.
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -627,44 +761,158 @@ public class PlayerFrame extends JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException e) {
-            java.util.logging.Logger.getLogger(PlayerFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
-            System.out.println("Aleksa, ne budali na stackoverflowu, molim te: " + e.getMessage());
-        } catch (InstantiationException e) {
-            java.util.logging.Logger.getLogger(PlayerFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
-            System.out.println("Aleksa, ne budali na stackoverflowu, molim te: " + e.getMessage());
-        } catch (IllegalAccessException e) {
-            java.util.logging.Logger.getLogger(PlayerFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
-            System.out.println("Aleksa, ne budali na stackoverflowu, molim te: " + e.getMessage());
-        } catch (javax.swing.UnsupportedLookAndFeelException e) {
+        } catch (ClassNotFoundException | UnsupportedLookAndFeelException | IllegalAccessException | InstantiationException e) {
             java.util.logging.Logger.getLogger(PlayerFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
             System.out.println("Aleksa, ne budali na stackoverflowu, molim te: " + e.getMessage());
         }
 
+        // Lambda koja kontroliše greške.
         java.awt.EventQueue.invokeLater(() -> new PlayerFrame().setVisible(true));
     }
 
+    /**
+     * Metoda koja poziva i koja kada se pokrene otvara JFileChooser prozor
+     * kako bi korisnik mogao da otvori prozor i putanju do potrebnih fajlova.
+     */
     public void chosenFile() {
-        File[] songFiles;
         JFileChooser openFileChooser = new JFileChooser(currentDirectory);
-
         openFileChooser.setFileFilter(new FileTypeFilter(".mp3", "Otvorite samo MP3 fajlove!"));
         openFileChooser.setMultiSelectionEnabled(true);
         int result = openFileChooser.showOpenDialog(null);
 
         if (result == JFileChooser.APPROVE_OPTION) {
             songFiles = openFileChooser.getSelectedFiles();
-            name(songFiles);
-            currPlaying.setText("Sada na repertoaru: " + songFile.getName());
+            processFiles(songFiles);
         }
     }
 
-    public void name(File[] someFiles) {
+    /**
+     * Metoda koja procesuje fajlove i dodaje ih u queue iz kojeg će se dalje očitavati.
+     *
+     * @param someFiles
+     */
+    private void processFiles(File[] someFiles) {
         for (File song : someFiles) {
             songFile = song;
             player.addToPlayList(songFile);
             player.skipForward();
             currentDirectory = songFile.getAbsolutePath();
         }
+    }
+
+    public MP3Player getPlayer() {
+        return player;
+    }
+
+    public File getSongFile() {
+        return songFile;
+    }
+
+    public String getCurrentDirectory() {
+        return currentDirectory;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public String getAppName() {
+        return appName;
+    }
+
+    public File[] getSongFiles() {
+        return songFiles;
+    }
+
+    public boolean isOnRepeat() {
+        return isOnRepeat;
+    }
+
+    public boolean isWindowCollapsed() {
+        return windowCollapsed;
+    }
+
+    public int getxMouse() {
+        return xMouse;
+    }
+
+    public int getyMouse() {
+        return yMouse;
+    }
+
+    public JPanel getContainer() {
+        return container;
+    }
+
+    public JPanel getHeader() {
+        return header;
+    }
+
+    public JLabel getAppTitle() {
+        return appTitle;
+    }
+
+    public JLabel getQuit() {
+        return quit;
+    }
+
+    public JLabel getSettings() {
+        return settings;
+    }
+
+    public JPanel getDisplay() {
+        return display;
+    }
+
+    public JLabel getCurrPlaying() {
+        return currPlaying;
+    }
+
+    public JButton getPrevious() {
+        return previous;
+    }
+
+    public JButton getNext() {
+        return next;
+    }
+
+    public JPanel getControlPannel() {
+        return controlPannel;
+    }
+
+    public JLabel getRepeat() {
+        return repeat;
+    }
+
+    public JLabel getPause() {
+        return pause;
+    }
+
+    public JLabel getPlay() {
+        return play;
+    }
+
+    public JLabel getStop() {
+        return stop;
+    }
+
+    public JLabel getOpen() {
+        return open;
+    }
+
+    public JLabel getVolume() {
+        return volume;
+    }
+
+    public JLabel getVolume1() {
+        return volume1;
+    }
+
+    public JLabel getVolume2() {
+        return volume2;
+    }
+
+    public JLabel getMute() {
+        return mute;
     }
 }

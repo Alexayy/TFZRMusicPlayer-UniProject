@@ -13,22 +13,19 @@ import java.awt.event.MouseEvent;
 /**
  * @author Aleksa
  */
-public class AboutApp extends JDialog {
+class AboutApp extends JDialog {
 
-    public AboutApp(Window owner) {
+    PlayerFrame playerFrame = new PlayerFrame();
+
+    AboutApp(Window owner) {
         super(owner);
         initComponents();
     }
 
-    private void cancelButtonMouseClicked(MouseEvent e) {
-        // TODO add your code here
-        this.dispose();
-    }
-
-    private void okButtonMouseClicked(MouseEvent e) {
-        DefaultListModel<String> listModel = new DefaultListModel<>();
-        listModel.addElement(new PlayerFrame().songFile.getName());
-
+    private void button1MouseClicked(MouseEvent e) {
+        DefaultListModel dlm = new DefaultListModel();
+        dlm.addElement(playerFrame.getSongFile().getName());
+        list1.setModel(dlm);
     }
 
     private void initComponents() {
@@ -37,11 +34,8 @@ public class AboutApp extends JDialog {
         dialogPane = new JPanel();
         contentPanel = new JPanel();
         scrollPane1 = new JScrollPane();
-        songsList = new JList();
-        buttonBar = new JPanel();
-        okButton = new JButton();
-        cancelButton = new JButton();
-        helpButton = new JButton();
+        list1 = new JList();
+        button1 = new JButton();
 
         //======== this ========
         var contentPane = getContentPane();
@@ -63,11 +57,17 @@ public class AboutApp extends JDialog {
 
                 //======== scrollPane1 ========
                 {
-
-                    //---- songsList ----
-                    songsList.setVisibleRowCount(10);
-                    scrollPane1.setViewportView(songsList);
+                    scrollPane1.setViewportView(list1);
                 }
+
+                //---- button1 ----
+                button1.setText("text");
+                button1.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        button1MouseClicked(e);
+                    }
+                });
 
                 GroupLayout contentPanelLayout = new GroupLayout(contentPanel);
                 contentPanel.setLayout(contentPanelLayout);
@@ -75,57 +75,21 @@ public class AboutApp extends JDialog {
                     contentPanelLayout.createParallelGroup()
                         .addGroup(contentPanelLayout.createSequentialGroup()
                             .addContainerGap()
-                            .addComponent(scrollPane1, GroupLayout.DEFAULT_SIZE, 612, Short.MAX_VALUE)
+                            .addGroup(contentPanelLayout.createParallelGroup()
+                                .addComponent(scrollPane1, GroupLayout.DEFAULT_SIZE, 612, Short.MAX_VALUE)
+                                .addComponent(button1, GroupLayout.DEFAULT_SIZE, 612, Short.MAX_VALUE))
                             .addContainerGap())
                 );
                 contentPanelLayout.setVerticalGroup(
                     contentPanelLayout.createParallelGroup()
                         .addGroup(contentPanelLayout.createSequentialGroup()
                             .addContainerGap()
-                            .addComponent(scrollPane1, GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
-                            .addContainerGap())
+                            .addComponent(scrollPane1, GroupLayout.PREFERRED_SIZE, 380, GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(button1))
                 );
             }
             dialogPane.add(contentPanel, BorderLayout.CENTER);
-
-            //======== buttonBar ========
-            {
-                buttonBar.setBorder(new EmptyBorder(12, 0, 0, 0));
-                buttonBar.setLayout(new GridBagLayout());
-                ((GridBagLayout)buttonBar.getLayout()).columnWidths = new int[] {0, 85, 85, 80};
-                ((GridBagLayout)buttonBar.getLayout()).columnWeights = new double[] {1.0, 0.0, 0.0, 0.0};
-
-                //---- okButton ----
-                okButton.setText("OK");
-                okButton.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        okButtonMouseClicked(e);
-                    }
-                });
-                buttonBar.add(okButton, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 0, 5), 0, 0));
-
-                //---- cancelButton ----
-                cancelButton.setText("Cancel");
-                cancelButton.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        cancelButtonMouseClicked(e);
-                    }
-                });
-                buttonBar.add(cancelButton, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 0, 5), 0, 0));
-
-                //---- helpButton ----
-                helpButton.setText("Help");
-                buttonBar.add(helpButton, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 0, 0), 0, 0));
-            }
-            dialogPane.add(buttonBar, BorderLayout.SOUTH);
         }
         contentPane.add(dialogPane, BorderLayout.CENTER);
         pack();
@@ -138,10 +102,7 @@ public class AboutApp extends JDialog {
     private JPanel dialogPane;
     private JPanel contentPanel;
     private JScrollPane scrollPane1;
-    private JList songsList;
-    private JPanel buttonBar;
-    private JButton okButton;
-    private JButton cancelButton;
-    private JButton helpButton;
+    private JList list1;
+    private JButton button1;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 }
