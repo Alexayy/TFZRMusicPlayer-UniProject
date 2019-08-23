@@ -1,0 +1,7 @@
+<root>
+    <item name='com.jgoodies.forms.factories.DefaultComponentFactory javax.swing.JLabel createLabel(java.lang.String)'>
+        <annotation name='org.jetbrains.annotations.Contract'>
+            <val name="pure" val="true"/>
+        </annotation>
+    </item>
+</root>

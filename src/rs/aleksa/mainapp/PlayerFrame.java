@@ -318,13 +318,9 @@ public class PlayerFrame extends JFrame {
                     , new java.awt.Font("D\u0069al\u006fg", java.awt.Font.BOLD, 12)
                     , java.awt.Color.red), container.getBorder()));
             container.addPropertyChangeListener(
-                    new java.beans.PropertyChangeListener() {
-                        @Override
-                        public void propertyChange(java.beans.PropertyChangeEvent e
-                        ) {
-                            if ("\u0062or\u0064er".equals(e.getPropertyName())) throw new RuntimeException()
-                                    ;
-                        }
+                    e -> {
+                        if ("\u0062or\u0064er".equals(e.getPropertyName())) throw new RuntimeException()
+                                ;
                     });
 
             //======== header ========
